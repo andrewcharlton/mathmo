@@ -7,14 +7,14 @@ jobs:
       - checkout
 
       - restore_cache:
-          key: {{ checksum "yarn.lock" }}
+          key: node_modules_{{ checksum "yarn.lock" }}
 
       - run:
           name: Install dependencies
           command: yarn
 
       - save_cache:
-          key: {{ checksum "yarn.lock" }}
+          key: node_modules_{{ checksum "yarn.lock" }}
           paths:
             - node_modules
 
