@@ -12,7 +12,9 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
-    "fmt": "./node_modules/prettier/bin-prettier.js --write 'src/**/*.ts'"
+    "fmt": "./node_modules/prettier/bin-prettier.js --write 'src/**/*.ts'",
+    "fmt-errors": "./node_modules/prettier/bin-prettier.js --list-different 'src/**/*.ts'",
+    "lint": "tslint 'src/**/*.ts*'"
   },
   "devDependencies": {
     "@types/enzyme": "^3.1.14",
