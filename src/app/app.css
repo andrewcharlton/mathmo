@@ -1,0 +1,20 @@
+:root {
+  font-size: 18px;
+}
+
+body {
+  padding: 50px;
+}
+
+.App {
+  margin: 0;
+  padding: 2em;
+  min-height: calc(100vh - 100px);
+
+  display: flex;
+  flex-direction: column;
+}
+
+.App > h1 {
+  flex: 0;
+}

@@ -1,0 +1,8 @@
+.NumberPicker {
+  display: flex;
+  justify-content: space-between;
+}
+
+.NumberPicker .btn {
+  font-size: 3em;
+}

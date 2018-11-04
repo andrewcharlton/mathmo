@@ -1,0 +1,18 @@
+.NumberBondsGame {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.NumberBondsGameContent {
+  width: 80%;
+  margin: 0 auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.NumberBondsGameFooter {
+  flex: 0;
+}
