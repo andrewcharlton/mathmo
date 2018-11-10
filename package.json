@@ -30,6 +30,11 @@
     "typescript": "^3.1.6"
   },
   "jest": {
+    "collectCoverageFrom": [
+      "**/*.{ts,tsx}",
+      "!**/node_modules/**",
+      "!**/index.ts*"
+    ],
     "moduleNameMapper": {
       "^~/(.*)$": "<rootDir>/src/$1"
     }

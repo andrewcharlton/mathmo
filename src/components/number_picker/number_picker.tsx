@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 
 import './number_picker.css';
 
-interface Item {
+export interface Item {
   n: number;
   disabled?: boolean;
 }
