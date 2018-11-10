@@ -43,6 +43,7 @@ jobs:
     docker:
       - image: circleci/python:3.7
 
+    steps:
       - attach_workspace:
           at: .
 
