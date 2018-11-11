@@ -5,7 +5,7 @@ import { Props, ScoreBar } from './scorebar';
 
 const testProps = (): Props => ({
   score: 5,
-  roundsPlayed: 3,
+  round: 3,
   maxRounds: 10,
 });
 

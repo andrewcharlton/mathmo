@@ -5,6 +5,7 @@ import { NumberPicker, Props } from './number_picker';
 
 const testProps = (): Props => ({
   items: [{ n: 1 }, { n: 2, disabled: true }, { n: 3 }],
+  guess: jest.fn(),
 });
 
 test('renders without crashing', () => {
