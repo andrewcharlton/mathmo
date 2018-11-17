@@ -3,16 +3,29 @@ import { connect } from 'react-redux';
 
 import { Selectors, State } from '~/state';
 
+import sound from './correct.mp3';
 import './question.css';
 
 export interface Props {
   prompt: string;
 }
 
-export const Question: React.SFC<Props> = props => <div className="Question">{props.prompt}</div>;
+export class Question extends React.PureComponent<Props> {
+  public componentDidUpdate() {
+    const audio = new Audio(sound);
+    audio.play();
+  }
 
-const mapState = (state: State): Props => ({
-  prompt: Selectors.getQuestion(state).prompt,
-});
+  public render() {
+    return <div className="Question">{this.props.prompt}</div>;
+  }
+}
+
+const mapState = (state: State): Props => {
+  const question = Selectors.getQuestion(state);
+  return {
+    prompt: (question && question.prompt) || '',
+  };
+};
 
 export default connect(mapState)(Question);

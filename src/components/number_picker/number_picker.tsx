@@ -38,11 +38,11 @@ export const NumberPicker: React.SFC<Props> = props => (
 );
 
 export const mapState = (state: State, ownProps: OwnProps): StateProps => {
-  const wrongAnswers = Selectors.getWrongAnswers(state);
+  const incorrectGuesses = Selectors.getIncorrectGuesses(state);
 
   const items = [];
   for (let i = ownProps.min; i <= ownProps.max; i++) {
-    items.push({ n: i, disabled: wrongAnswers.indexOf(i) > -1 });
+    items.push({ n: i, disabled: incorrectGuesses.indexOf(i) > -1 });
   }
 
   return { items };
