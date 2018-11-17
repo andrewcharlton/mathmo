@@ -10,4 +10,7 @@ export const Selectors = {
   },
   getIncorrectGuesses: (state: State): number[] => state.incorrectGuesses,
   getScore: (state: State) => state.score,
+  getRound: (state: State) => state.currentQuestion + 1,
+  getMaxRounds: (state: State) => state.questions.length,
+  isComplete: (state: State) => state.currentQuestion > state.questions.length,
 };
