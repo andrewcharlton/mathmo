@@ -1,124 +1,76 @@
 import { Action, Actions } from './actions';
 import { reducer } from './reducer';
 import { State } from './state';
-import { Game, Type } from './types';
+import { Type } from './types';
 
-test('StartGame', () => {
+const game = 'TestGame';
+
+const questions = [
+  { prompt: '1', answer: 1 },
+  { prompt: '2', answer: 2 },
+  { prompt: '3', answer: 3 },
+  { prompt: '4', answer: 4 },
+  { prompt: '5', answer: 5 },
+];
+
+test('NewGame', () => {
   const action: Action = {
-    type: Type.StartGame,
+    type: Type.NewGame,
     payload: {
-      game: Game.NumberBondsTo10,
-      question: {
-        prompt: '4 + ? = 10',
-        answer: 6,
-      },
+      game,
+      questions,
     },
   };
 
   const expected: State = {
-    game: Game.NumberBondsTo10,
-    question: {
-      prompt: '4 + ? = 10',
-      answer: 6,
-    },
-    correct: false,
-    wrongAnswers: [],
+    game,
+    questions,
+    currentQuestion: 0,
+    incorrectGuesses: [],
     score: 0,
-    round: 1,
-    maxRounds: 10,
-    finished: false,
   };
 
   expect(reducer(undefined, action)).toEqual(expected);
 });
 
-test('NewQuestion', () => {
-  const state: State = {
-    game: Game.NumberBondsTo10,
-    question: {
-      prompt: '4 + ? = 10',
-      answer: 6,
-    },
-    correct: true,
-    wrongAnswers: [7],
-    score: 4,
-    round: 2,
-    maxRounds: 10,
-    finished: false,
-  };
-
-  const action: Action = {
-    type: Type.NewQuestion,
-    payload: {
-      question: {
-        prompt: '9 + ? = 10',
-        answer: 1,
-      },
-    },
-  };
-
-  const expected: State = {
-    game: Game.NumberBondsTo10,
-    question: {
-      prompt: '9 + ? = 10',
-      answer: 1,
-    },
-    correct: false,
-    wrongAnswers: [],
-    score: 4,
-    round: 3,
-    maxRounds: 10,
-    finished: false,
-  };
-
-  expect(reducer(state, action)).toEqual(expected);
-});
-
 describe('Guess', () => {
   const state: State = {
-    game: Game.NumberBondsTo10,
-    question: {
-      prompt: '4 + ? = 10',
-      answer: 6,
-    },
-    correct: false,
-    wrongAnswers: [7],
-    score: 6,
-    round: 3,
-    maxRounds: 10,
-    finished: false,
+    game,
+    questions,
+    currentQuestion: 0,
+    incorrectGuesses: [2],
+    score: 0,
   };
 
-  test('correct guess marks as correct and increments score', () => {
-    const action = Actions.guess(6);
+  test('correct guess increments score and currentQuestion', () => {
+    const action = Actions.guess(1);
     const expected: State = {
       ...state,
-      correct: true,
-      score: 8,
+      incorrectGuesses: [],
+      score: 2,
+      currentQuestion: 1,
     };
 
     expect(reducer(state, action)).toEqual(expected);
   });
 
-  test('correct guess on last round also marks game as finished', () => {
-    const action = Actions.guess(6);
+  test('correct guess never decrements score', () => {
+    const action = Actions.guess(1);
     const expected: State = {
       ...state,
-      correct: true,
-      score: 8,
-      round: 10,
-      finished: true,
+      incorrectGuesses: [],
+      score: 0,
+      currentQuestion: 1,
     };
 
-    expect(reducer({ ...state, round: 10 }, action)).toEqual(expected);
+    expect(reducer({ ...state, incorrectGuesses: [2, 3, 4, 5, 6, 7] }, action)).toEqual(expected);
   });
 
   test('incorrect guess adds guess to wrong answers', () => {
     const action = Actions.guess(8);
     const expected: State = {
       ...state,
-      correct: false,
-      wrongAnswers: [7, 8],
+      incorrectGuesses: [2, 8],
     };
 
     expect(reducer(state, action)).toEqual(expected);
@@ -127,17 +79,11 @@ describe('Guess', () => {
 
 test('other action', () => {
   const state: State = {
-    game: Game.NumberBondsTo10,
-    question: {
-      prompt: '4 + ? = 10',
-      answer: 6,
-    },
-    correct: false,
-    wrongAnswers: [7],
-    score: 6,
-    round: 3,
-    maxRounds: 10,
-    finished: false,
+    game,
+    questions,
+    currentQuestion: 0,
+    incorrectGuesses: [],
+    score: 0,
   };
 
   expect(reducer(state, ({ type: 'OtheAction' } as unknown) as Action)).toEqual(state);

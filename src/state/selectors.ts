@@ -1,12 +1,13 @@
 import { State } from './state';
 
 export const Selectors = {
-  getGameType: (state: State) => state.game,
-  getQuestion: (state: State) => state.question,
-  isCorrect: (state: State) => state.correct,
-  getWrongAnswers: (state: State) => state.wrongAnswers,
+  getGame: (state: State) => state.game,
+  getQuestion: (state: State) => {
+    if (state.currentQuestion >= state.questions.length) {
+      return null;
+    }
+    return state.questions[state.currentQuestion];
+  },
+  getIncorrectGuesses: (state: State): number[] => state.incorrectGuesses,
   getScore: (state: State) => state.score,
-  getRound: (state: State) => state.round,
-  getMaxRounds: (state: State) => state.maxRounds,
-  isFinished: (state: State) => state.finished,
 };

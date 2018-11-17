@@ -1,42 +1,42 @@
 import { Action } from './actions';
-import { InitialState, State } from './state';
+import { State } from './state';
 import { Type } from './types';
+
+const InitialState: State = {
+  game: '',
+  questions: [],
+  currentQuestion: 0,
+  incorrectGuesses: [],
+  score: 0,
+};
 
 export const reducer = (state: State = InitialState, action: Action): State => {
   switch (action.type) {
-    case Type.StartGame:
+    case Type.NewGame:
       return {
         game: action.payload.game,
-        question: action.payload.question,
-        correct: false,
-        wrongAnswers: [],
+        questions: action.payload.questions,
+        currentQuestion: 0,
+        incorrectGuesses: [],
         score: 0,
-        round: 1,
-        maxRounds: 10,
-        finished: false,
-      };
-
-    case Type.NewQuestion:
-      return {
-        ...state,
-        question: action.payload.question,
-        correct: false,
-        wrongAnswers: [],
-        round: state.round + 1,
       };
 
     case Type.Guess: {
-      const correct = state.question.answer === action.payload.guess;
-      const wrongAnswers = [...state.wrongAnswers];
-      if (!correct) {
-        wrongAnswers.push(action.payload.guess);
+      const correct = state.questions[state.currentQuestion].answer === action.payload.guess;
+      if (correct) {
+        return {
+          ...state,
+          currentQuestion: state.currentQuestion + 1,
+          incorrectGuesses: [],
+          score: state.score + Math.max(3 - state.incorrectGuesses.length, 0),
+        };
       }
+
+      const incorrectGuesses = [...state.incorrectGuesses];
+      incorrectGuesses.push(action.payload.guess);
       return {
         ...state,
-        correct,
-        wrongAnswers,
-        score: correct ? state.score + 3 - wrongAnswers.length : state.score,
-        finished: correct && state.round === state.maxRounds,
+        incorrectGuesses,
       };
     }
 

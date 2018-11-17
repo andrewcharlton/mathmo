@@ -1,42 +1,22 @@
 import { Action, Actions } from './actions';
-import { Game, Type } from './types';
+import { Type } from './types';
 
-const rnd = Math.random;
-const rndMock = () => 0.1;
+test('newGame', () => {
+  const prompts = ['A', 'B', 'B', 'C', 'D', 'E', 'E', 'F', 'G', 'H', 'I', 'I', 'J'];
+  const questionGen = jest.fn().mockImplementation(() => ({ prompt: prompts.shift(), answer: 1 }));
 
-beforeEach(() => {
-  global.Math.random = rndMock;
-});
-
-afterEach(() => {
-  global.Math.random = rnd;
-});
-
-test('startGame', () => {
   const expected: Action = {
-    type: Type.StartGame,
+    type: Type.NewGame,
     payload: {
-      game: Game.NumberBondsTo10,
-      question: {
-        prompt: '9 + ? = 10',
+      game: 'TestGame',
+      questions: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'].map(prompt => ({
+        prompt,
         answer: 1,
-      },
+      })),
     },
   };
-  expect(Actions.startGame(Game.NumberBondsTo10)).toEqual(expected);
-});
 
-test('newQuestion', () => {
-  const expected: Action = {
-    type: Type.NewQuestion,
-    payload: {
-      question: {
-        prompt: '9 + ? = 10',
-        answer: 1,
-      },
-    },
-  };
-  expect(Actions.newQuestion(Game.NumberBondsTo10)).toEqual(expected);
+  expect(Actions.newGame('TestGame', questionGen)).toEqual(expected);
 });
 
 test('guess', () => {

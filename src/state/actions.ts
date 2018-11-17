@@ -1,18 +1,11 @@
-import { newQuestion, Question } from './question';
-import { Game, Type } from './types';
+import { Question } from '~/models';
+import { Type } from './types';
 
-interface StartGame {
-  type: Type.StartGame;
+interface NewGame {
+  type: Type.NewGame;
   payload: {
-    game: Game;
-    question: Question;
-  };
-}
-
-interface NewQuestion {
-  type: Type.NewQuestion;
-  payload: {
-    question: Question;
+    game: string;
+    questions: Question[];
   };
 }
 
@@ -23,16 +16,23 @@ interface Guess {
   };
 }
 
-export type Action = StartGame | NewQuestion | Guess;
+export type Action = NewGame | Guess;
 
 export const Actions = {
-  startGame: (game: Game): Action => ({
-    type: Type.StartGame,
-    payload: { game, question: newQuestion(game) },
-  }),
-  newQuestion: (game: Game): Action => ({
-    type: Type.NewQuestion,
-    payload: { question: newQuestion(game) },
-  }),
+  newGame: (game: string, questionGenerator: () => Question): Action => {
+    // Create list of questions, avoiding consecutive duplicates
+    const questions: Question[] = [];
+    while (questions.length < 10) {
+      const q = questionGenerator();
+      if (questions.length === 0 || questions[questions.length - 1].prompt !== q.prompt) {
+        questions.push(q);
+      }
+    }
+
+    return {
+      type: Type.NewGame,
+      payload: { game, questions },
+    };
+  },
   guess: (guess: number): Action => ({ type: Type.Guess, payload: { guess } }),
 };
