@@ -1,13 +1,26 @@
 import * as React from 'react';
 import { Jumbotron } from 'react-bootstrap';
+import { connect } from 'react-redux';
+
+import { GameOverPage } from '~/components';
+import { Game } from '~/games/number_bonds/game';
+import { Selectors, State } from '~/state';
 
 import './app.css';
 
-import { Game } from '~/games/number_bonds/game';
+interface Props {
+  isFinished: boolean;
+}
 
-export const App: React.SFC = () => (
+export const App: React.SFC<Props> = props => (
   <Jumbotron className="App">
     <h1>MathMo</h1>
-    <Game />
+    {props.isFinished ? <GameOverPage /> : <Game />}
   </Jumbotron>
 );
+
+const mapState = (state: State): Props => ({
+  isFinished: Selectors.isComplete(state),
+});
+
+export default connect(mapState)(App);
