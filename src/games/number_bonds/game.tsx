@@ -19,3 +19,5 @@ export const Game: React.SFC = () => {
     </div>
   );
 };
+
+export default Game;
