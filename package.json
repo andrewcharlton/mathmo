@@ -38,6 +38,7 @@
       "**/*.{ts,tsx}",
       "!**/node_modules/**",
       "!**/index.ts*",
+      "!resources.d.ts",
       "!src/setupTests.ts",
       "!src/models/**/*"
     ],

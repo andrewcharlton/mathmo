@@ -25,7 +25,7 @@ test('getRound', () => expect(Selectors.getRound(state)).toEqual(2));
 
 test('getMaxRound', () => expect(Selectors.getMaxRounds(state)).toEqual(3));
 
-test('isComplete', () => expect(Selectors.isComplete(state)).toEqual(false));
+test('is not complete', () => expect(Selectors.isComplete(state)).toEqual(false));
 
 test('is not complete', () =>
   expect(Selectors.isComplete({ ...state, currentQuestion: 3 })).toEqual(true));
