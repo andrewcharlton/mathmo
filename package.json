@@ -26,16 +26,20 @@
     "@types/react-bootstrap": "^0.32.14",
     "@types/react-dom": "^16.0.9",
     "@types/react-redux": "^6.0.9",
+    "@types/redux-logger": "^3.0.6",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
     "prettier": "^1.14.3",
+    "redux-logger": "^3.0.6",
     "typescript": "^3.1.6"
   },
   "jest": {
     "collectCoverageFrom": [
       "**/*.{ts,tsx}",
       "!**/node_modules/**",
-      "!**/index.ts*"
+      "!**/index.ts*",
+      "!src/setupTests.ts",
+      "!src/models/**/*"
     ],
     "moduleNameMapper": {
       "^~/(.*)$": "<rootDir>/src/$1"
