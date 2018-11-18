@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { Actions, Selectors, State } from '~/state';
 
+import sound from './error.mp3';
 import './number_picker.css';
 
 interface OwnProps {
@@ -12,6 +13,7 @@ interface OwnProps {
 }
 
 interface StateProps {
+  hasErrors: boolean;
   items: Array<{ n: number; disabled?: boolean }>;
 }
 
@@ -21,21 +23,33 @@ interface DispatchProps {
 
 export type Props = StateProps & DispatchProps;
 
-export const NumberPicker: React.SFC<Props> = props => (
-  <div className="NumberPicker">
-    {props.items.map(item => (
-      <Button
-        key={`button${item.n}`}
-        bsStyle="info"
-        bsSize="large"
-        disabled={!!item.disabled}
-        onClick={() => props.guess(item.n)}
-      >
-        {item.n}
-      </Button>
-    ))}
-  </div>
-);
+export class NumberPicker extends React.PureComponent<Props> {
+  private audio = new Audio(sound);
+
+  public componentDidUpdate() {
+    if (this.props.hasErrors) {
+      this.audio.play();
+    }
+  }
+  public render() {
+    return (
+      <div className="NumberPicker">
+        {this.props.items.map(item => (
+          <Button
+            key={`button${item.n}`}
+            bsStyle="info"
+            bsSize="large"
+            disabled={!!item.disabled}
+            onClick={() => this.props.guess(item.n)}
+            className={!!item.disabled ? 'btn-outline-info' : ''}
+          >
+            {item.n}
+          </Button>
+        ))}
+      </div>
+    );
+  }
+}
 
 export const mapState = (state: State, ownProps: OwnProps): StateProps => {
   const incorrectGuesses = Selectors.getIncorrectGuesses(state);
@@ -45,7 +59,10 @@ export const mapState = (state: State, ownProps: OwnProps): StateProps => {
     items.push({ n: i, disabled: incorrectGuesses.indexOf(i) > -1 });
   }
 
-  return { items };
+  return {
+    hasErrors: incorrectGuesses.length > 0,
+    items,
+  };
 };
 
 const actions: DispatchProps = {
