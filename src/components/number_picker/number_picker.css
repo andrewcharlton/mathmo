@@ -1,9 +1,10 @@
 .NumberPicker {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .NumberPicker .btn {
-  font-size: 3em;
-  margin: 5px;
+  font-size: 4em;
+  margin: 15px;
 }
