@@ -14,6 +14,6 @@ export const initStore = (): Store<State> => {
 
   const store = createStore<State>(reducer, applyMiddleware(...middleware));
 
-  store.dispatch(Actions.newGame(Name, newQuestion));
+  store.dispatch(Actions.newGame(Name, newQuestion, 20));
   return store;
 };

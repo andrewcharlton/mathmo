@@ -40,7 +40,7 @@ export class NumberPicker extends React.PureComponent<Props> {
             bsStyle="info"
             bsSize="large"
             disabled={!!item.disabled}
-            onClick={() => this.props.guess(item.n)}
+            onClick={this.onClick(item.n)}
             className={!!item.disabled ? 'btn-outline-info' : ''}
           >
             {item.n}
@@ -49,6 +49,8 @@ export class NumberPicker extends React.PureComponent<Props> {
       </div>
     );
   }
+
+  private onClick = (n: number) => () => this.props.guess(n);
 }
 
 export const mapState = (state: State, ownProps: OwnProps): StateProps => {

@@ -19,10 +19,10 @@ interface Guess {
 export type Action = NewGame | Guess;
 
 export const Actions = {
-  newGame: (game: string, questionGenerator: () => Question): Action => {
+  newGame: (game: string, questionGenerator: () => Question, rounds: number = 10): Action => {
     // Create list of questions, avoiding consecutive duplicates
     const questions: Question[] = [];
-    while (questions.length < 10) {
+    while (questions.length < rounds) {
       const q = questionGenerator();
       if (questions.length === 0 || questions[questions.length - 1].prompt !== q.prompt) {
         questions.push(q);
