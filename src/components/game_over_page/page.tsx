@@ -3,13 +3,31 @@ import { connect } from 'react-redux';
 
 import { Selectors, State } from '~/state';
 
+import sound from './complete.mp3';
 import './page.css';
 
 export interface Props {
   score: number;
 }
 
-export const Page: React.SFC<Props> = props => <div className="GameOverPage">{props.score}</div>;
+export class Page extends React.PureComponent<Props> {
+  public componentDidMount() {
+    const audio = new Audio(sound);
+    audio.play();
+  }
+
+  public render() {
+    return (
+      <div className="GameOverPage">
+        <div className="GameOverPageHeader">Well done Amelia!</div>
+        <div className="GameOverText">You scored:</div>
+        <div className="GameOverPageScore">
+          <div>{this.props.score}</div>
+        </div>
+      </div>
+    );
+  }
+}
 
 const mapState = (state: State): Props => ({
   score: Selectors.getScore(state),
