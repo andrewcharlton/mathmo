@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
+import { Sounds } from '~/resources';
 import { Selectors, State } from '~/state';
 
-import sound from './correct.mp3';
 import './question.css';
 
 export interface Props {
@@ -12,8 +12,7 @@ export interface Props {
 
 export class Question extends React.PureComponent<Props> {
   public componentDidUpdate() {
-    const audio = new Audio(sound);
-    audio.play();
+    Sounds.correct();
   }
 
   public render() {

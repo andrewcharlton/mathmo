@@ -2,9 +2,9 @@ import * as React from 'react';
 import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
+import { Sounds } from '~/resources';
 import { Actions, Selectors, State } from '~/state';
 
-import sound from './error.mp3';
 import './number_picker.css';
 
 interface OwnProps {
@@ -24,11 +24,9 @@ interface DispatchProps {
 export type Props = StateProps & DispatchProps;
 
 export class NumberPicker extends React.PureComponent<Props> {
-  private audio = new Audio(sound);
-
   public componentDidUpdate() {
     if (this.props.hasErrors) {
-      this.audio.play();
+      Sounds.error();
     }
   }
   public render() {
